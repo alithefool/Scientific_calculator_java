@@ -95,10 +95,22 @@ public class calculator {
         createFunctionButton("x2", 10, 347, e -> performFunction(value -> value * value)); // Square function
         createFunctionButton("x3", 10, 295, e -> performFunction(value -> value * value * value)); // Cubic function
         createFunctionButton("n!", 10, 398, e -> { // Factorial function
-            double a = Double.parseDouble(textField.getText());
-            double f = 1;
-            while (a != 0) {
-                f *= a--; // Calculate factorial
+            double inputValue;
+            try {
+                inputValue = Double.parseDouble(textField.getText());
+                if (inputValue % 1 != 0 || inputValue < 0) { // Check if not a non-negative integer
+                    textField.setText("Ingresa un entero no negativo.");
+                    return;
+                }
+            } catch (NumberFormatException ex) {
+                textField.setText("Ingresa un número válido.");
+                return;
+            }
+
+            int a = (int) inputValue; // Convert to integer
+            long f = 1;
+            for (int i = 2; i <= a; i++) { // Calculate factorial
+                f *= i;
             }
             textField.setText(String.valueOf(f)); // Display result
         });
